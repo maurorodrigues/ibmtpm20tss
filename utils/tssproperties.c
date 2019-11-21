@@ -168,7 +168,9 @@ TPM_RC TSS_Properties_Init(TSS_CONTEXT *tssContext)
 	tssContext->sock_fd = -1;
 #endif 	/* TPM_NOSOCKET */
 #endif
+#ifndef TPM_NODEV
 	tssContext->dev_fd = -1;
+#endif /* TPM_NODEV */
 #ifdef TPM_WINDOWS
 #ifdef TPM_WINDOWS_TBSI
 #endif

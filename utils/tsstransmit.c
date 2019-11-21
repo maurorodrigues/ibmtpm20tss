@@ -151,15 +151,17 @@ TPM_RC TSS_Transmit(TSS_CONTEXT *tssContext,
 				 message);
     }
     else
-#endif
+#endif /* TPM_NOSOCKET */
 	
+#ifndef TPM_NODEV
     if ((strcmp(tssContext->tssInterfaceType, "dev") == 0)) {
 #ifdef TPM_POSIX	/* transmit through Linux device driver */
 	rc = TSS_Dev_Transmit(tssContext,
 			      responseBuffer, read,
 			      commandBuffer, written,
 			      message);
-#endif
+#endif /* TPM_POSIX */
+#endif /* TPM_NODEV */
 
 #ifdef TPM_WINDOWS	/* transmit through Windows TBSI */
 #ifdef TPM_WINDOWS_TBSI
@@ -171,8 +173,8 @@ TPM_RC TSS_Transmit(TSS_CONTEXT *tssContext,
 	if (tssVerbose) printf("TSS_Transmit: device %s unsupported\n",
 			       tssContext->tssInterfaceType);
 	rc = TSS_RC_INSUPPORTED_INTERFACE;	
-#endif
-#endif
+#endif /* TPM_WINDOWS_TBSI */
+#endif /* TPM_WINDOWS */
     }
     else {
 	if (tssVerbose) printf("TSS_Transmit: device %s unsupported\n",
@@ -195,11 +197,13 @@ TPM_RC TSS_Close(TSS_CONTEXT *tssContext)
 	    rc = TSS_Socket_Close(tssContext);
 	}
 	else
-#endif
+#endif /* TPM_NOSOCKET */
+#ifndef TPM_NODEV
         if ((strcmp(tssContext->tssInterfaceType, "dev") == 0)) {
 #ifdef TPM_POSIX	/* transmit through Linux device driver */
 	    rc = TSS_Dev_Close(tssContext);
-#endif
+#endif /* TPM_POSIX */
+#endif /* TPM_NODEV */
 
 #ifdef TPM_WINDOWS	/* transmit through Windows TBSI */
 #ifdef TPM_WINDOWS_TBSI
@@ -208,8 +212,8 @@ TPM_RC TSS_Close(TSS_CONTEXT *tssContext)
 	    if (tssVerbose) printf("TSS_Transmit: device %s unsupported\n",
 				   tssContext->tssInterfaceType);
 	    rc = TSS_RC_INSUPPORTED_INTERFACE;	
-#endif
-#endif
+#endif /* TPM_WINDOWS_TBSI */
+#endif /* TPM_WINDOWS */
 	}
 	else {
 	    if (tssVerbose) printf("TSS_Transmit: device %s unsupported\n",

@@ -159,8 +159,10 @@ extern "C" {
 	TSS_SOCKET_FD sock_fd;
 #endif 	/* TPM_NOSOCKET */
 
+#ifndef TPM_NODEV
 	/* Linux device file descriptor */
 	int dev_fd;
+#endif /* TPM_NODEV */
 
 	/* Windows device driver handle */
 #ifdef TPM_WINDOWS
