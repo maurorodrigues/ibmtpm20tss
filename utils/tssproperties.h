@@ -54,6 +54,10 @@
 #include <windows.h>
 #include <specstrings.h>
 
+#ifdef TPM_SKIBOOT
+#include <libstb/tpm2.h>
+#endif /* TPM_SKIBOOT */
+
 #ifdef TPM_WINDOWS_TBSI
 /* Windows 7 */
 #if defined TPM_WINDOWS_TBSI_WIN7
@@ -171,6 +175,10 @@ extern "C" {
 #endif
 #endif
 
+#ifdef TPM_SKIBOOT
+	struct tpm_dev *tpm_device;
+	struct tpm_driver *tpm_driver;
+#endif /* TPM_SKIBOOT */
     };
 
     TPM_RC TSS_GlobalProperties_Init(void);

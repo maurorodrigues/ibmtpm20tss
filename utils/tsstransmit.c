@@ -50,9 +50,15 @@
 #include <ibmtss/tsserror.h>
 #include <ibmtss/tssprint.h>
 
+#ifndef TPM_NODEV
 #ifdef TPM_POSIX
 #include "tssdev.h"
 #endif
+#endif /* TPM_NODEV */
+
+#ifdef TPM_SKIBOOT
+#include "tssdevskiboot.h"
+#endif /* TPM_SKIBOOT */
 
 #ifdef TPM_WINDOWS
 #ifdef TPM_WINDOWS_TBSI
@@ -152,9 +158,10 @@ TPM_RC TSS_Transmit(TSS_CONTEXT *tssContext,
     }
     else
 #endif /* TPM_NOSOCKET */
-	
+       
 #ifndef TPM_NODEV
-    if ((strcmp(tssContext->tssInterfaceType, "dev") == 0)) {
+    if ((strcmp(tssContext->tssInterfaceType, "dev") == 0) ||
+	(strcmp(tssContext->tssInterfaceType, "skiboot") == 0)) {
 #ifdef TPM_POSIX	/* transmit through Linux device driver */
 	rc = TSS_Dev_Transmit(tssContext,
 			      responseBuffer, read,
@@ -199,8 +206,9 @@ TPM_RC TSS_Close(TSS_CONTEXT *tssContext)
 	else
 #endif /* TPM_NOSOCKET */
 #ifndef TPM_NODEV
-        if ((strcmp(tssContext->tssInterfaceType, "dev") == 0)) {
 #ifdef TPM_POSIX	/* transmit through Linux device driver */
+        if ((strcmp(tssContext->tssInterfaceType, "dev") == 0) ||
+	    (strcmp(tssContext->tssInterfaceType, "skiboot") == 0)) {
 	    rc = TSS_Dev_Close(tssContext);
 #endif /* TPM_POSIX */
 #endif /* TPM_NODEV */
