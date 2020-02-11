@@ -175,8 +175,6 @@ extern "C" {
     LIB_EXPORT
     void TSS_TPMS_ATTEST_Print(TPMS_ATTEST *source, unsigned int indent);
     LIB_EXPORT
-    void TSS_TPM2B_ATTEST_Print(TPM2B_ATTEST *source, unsigned int indent);
-    LIB_EXPORT
     void TSS_TPMS_AUTH_COMMAND_Print(TPMS_AUTH_COMMAND *source, unsigned int indent);
     LIB_EXPORT
     void TSS_TPMS_AUTH_RESPONSE_Print(TPMS_AUTH_RESPONSE *source, unsigned int indent);

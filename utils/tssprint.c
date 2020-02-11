@@ -1488,29 +1488,6 @@ void TSS_TPMS_ATTEST_Print(TPMS_ATTEST *source, unsigned int indent)
     return;
 }
 
-/* Table 127 - Definition of TPM2B_ATTEST Structure <OUT> */
-
-void TSS_TPM2B_ATTEST_Print(TPM2B_ATTEST *source, unsigned int indent)
-{
-    TPM_RC			rc = 0;
-    TPMS_ATTEST 		attests;
-    uint32_t			size;
-    uint8_t			*buffer = NULL;
-
-    /* unmarshal the TPMS_ATTEST from the TPM2B_ATTEST */
-    if (rc == 0) {
-	buffer = source->t.attestationData;
-	size = source->t.size;
-	rc = TSS_TPMS_ATTEST_Unmarshalu(&attests, &buffer, &size);
-    }
-    if (rc == 0) {
-	TSS_TPMS_ATTEST_Print(&attests, indent+2);
-    }
-    else {
-	printf("%*s" "TPMS_ATTEST_Unmarshal failed\n", indent, "");
-    }
-    return;
-}
 
 /* Table 128 - Definition of TPMS_AUTH_COMMAND Structure <IN> */
 
